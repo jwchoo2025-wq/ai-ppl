@@ -227,6 +227,7 @@ function renderPayload(payload) {
     payload.sourceMode === "not-run" ? "No scan yet" : `${location.competitors.length} competitors - ${payload.sourceMode}`;
 
   renderMap(location);
+  renderMapStats(location);
   renderCompetitors(location);
   renderClusters(payload.clusters || []);
   renderLiveEvidence(payload.liveEvidence);
@@ -243,6 +244,32 @@ function renderMap(location) {
   renderFallbackMap(location);
 }
 
+function renderMapStats(location) {
+  const competitorCount = location.competitors.length;
+  const totalReviews = location.competitors.reduce((sum, competitor) => sum + Number(competitor.reviews || 0), 0);
+  const avgRating = competitorCount
+    ? location.competitors.reduce((sum, competitor) => sum + Number(competitor.rating || 0), 0) / competitorCount
+    : 0;
+  const ratingText = competitorCount ? avgRating.toFixed(1) : "n/a";
+  const reviewText = totalReviews ? totalReviews.toLocaleString() : "0";
+  const statusText = competitorCount ? "Live competitor data" : "No market scan yet";
+
+  $("#mapStats").innerHTML = `
+    <div class="map-stat">
+      <strong>${competitorCount}</strong>
+      <span>Competitors found</span>
+    </div>
+    <div class="map-stat">
+      <strong>${ratingText}</strong>
+      <span>Average rating</span>
+    </div>
+    <div class="map-stat">
+      <strong>${reviewText}</strong>
+      <span>${statusText}</span>
+    </div>
+  `;
+}
+
 function renderLeafletMap(location) {
   const mapElement = $("#map");
   const competitorsWithCoords = location.competitors.filter((competitor) => competitor.lat && competitor.lng);
@@ -257,8 +284,10 @@ function renderLeafletMap(location) {
       attributionControl: false,
       scrollWheelZoom: false,
     }).setView(center, 16);
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>',
+      crossOrigin: true,
     }).addTo(geoMap);
     L.control.zoom({ position: "bottomright" }).addTo(geoMap);
     geoMarkerLayer = L.layerGroup().addTo(geoMap);

@@ -35,9 +35,9 @@ select {
 }
 
 .shell {
-  width: min(1440px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 24px));
   margin: 0 auto;
-  padding: 18px 0 30px;
+  padding: 16px 0 24px;
 }
 
 .appbar {
@@ -130,10 +130,10 @@ h2 {
 
 .controls {
   display: grid;
-  grid-template-columns: 1.15fr 1.15fr 0.65fr auto;
-  gap: 10px;
-  margin-bottom: 14px;
-  padding: 12px;
+  grid-template-columns: minmax(180px, 1.3fr) minmax(180px, 1.3fr) minmax(140px, 0.8fr) auto;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px;
 }
 
 label {
@@ -221,9 +221,10 @@ button:disabled {
 
 .grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1.16fr;
-  gap: 14px;
+  grid-template-columns: minmax(320px, 1.45fr) minmax(240px, 1fr) minmax(240px, 1fr);
+  gap: 12px;
   align-items: start;
+  grid-auto-rows: minmax(0, auto);
 }
 
 .panel {
@@ -231,9 +232,12 @@ button:disabled {
   padding: 14px;
 }
 
-.map-panel,
-.brief-panel {
+.map-panel {
   grid-row: span 2;
+}
+
+.brief-panel {
+  grid-row: span 1;
 }
 
 .section-head {
@@ -270,11 +274,42 @@ button:disabled {
 
 .map {
   position: relative;
-  height: 214px;
+  height: 150px;
+  min-height: 150px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #d8ded9;
+}
+
+.map.leaflet-container {
+  height: 150px !important;
+  min-height: 150px !important;
+}
+
+.map-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.map-stat {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfb;
+}
+
+.map-stat strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.map-stat span {
+  color: var(--muted);
+  font-size: 0.83rem;
 }
 
 .map-fallback {
@@ -586,6 +621,14 @@ button:disabled {
 
   .profile-summary {
     grid-template-columns: 1fr;
+  }
+
+  .controls {
+    gap: 8px;
+  }
+
+  .panel {
+    padding: 12px;
   }
 }
 
