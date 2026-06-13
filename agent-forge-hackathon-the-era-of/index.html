@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoTaste AI</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIINfQY5Qpmo5ZdQvUymfONN8w+gEKvB9uE="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <nav class="appbar" aria-label="Product header">
+        <strong>GeoTaste AI</strong>
+        <span>F&B Expansion Intelligence</span>
+      </nav>
+
+      <section class="topbar">
+        <div>
+          <p class="eyebrow">Market Scan</p>
+          <h1>Where should this brand open next?</h1>
+          <p class="subtitle">Scrape local demand signals, cluster competitor complaints, and produce a lease-ready outlet brief.</p>
+        </div>
+        <div class="scorecard">
+          <span>Evidence Score</span>
+          <strong id="confidenceScore">0</strong>
+          <small id="confidenceLabel">Awaiting live scan</small>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Analysis controls">
+        <label>
+          Brand profile
+          <select id="brandSelect"></select>
+        </label>
+
+        <label>
+          Target location
+          <select id="locationSelect"></select>
+        </label>
+
+        <label>
+          Radius
+          <select id="radiusSelect">
+            <option>1.0 km</option>
+            <option selected>1.5 km</option>
+            <option>2.0 km</option>
+          </select>
+        </label>
+        <button id="runAgent" type="button">Analyze Market</button>
+        <div class="profile-summary" id="profileSummary"></div>
+      </section>
+
+      <section class="grid">
+        <aside class="panel map-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Local Radius</p>
+              <h2>Competitor Scan</h2>
+            </div>
+            <span id="scanStatus" class="pill">No scan yet</span>
+          </div>
+          <div class="map" id="map">
+            <div class="map-fallback">Run analysis to plot live competitors on the map.</div>
+          </div>
+          <div class="competitors" id="competitors"></div>
+        </aside>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Demand Signals</p>
+              <h2>Complaint Clusters</h2>
+            </div>
+            <span class="pill">Scored</span>
+          </div>
+          <div class="clusters" id="clusters"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Bright Data</p>
+              <h2>Live Scrape Proof</h2>
+            </div>
+            <span id="liveStatus" class="pill">Waiting</span>
+          </div>
+          <div class="evidence" id="liveEvidence"></div>
+        </section>
+
+        <section class="panel brief-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Recommendation</p>
+              <h2>Expansion Brief</h2>
+            </div>
+            <button id="copyBrief" class="ghost" type="button">Copy</button>
+          </div>
+          <article id="brief" class="brief"></article>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Audit Trail</p>
+              <h2>Sponsor Integrations</h2>
+            </div>
+            <span class="pill">Backend calls</span>
+          </div>
+          <div class="logs" id="logs"></div>
+        </section>
+      </section>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="./src/data.js"></script>
+    <script src="./src/app.js"></script>
+  </body>
+</html>
